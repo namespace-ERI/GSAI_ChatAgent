@@ -5,12 +5,23 @@ from flashrag.prompt import PromptTemplate
 
 
 config_dict = {
-    "save_note": "demo",
-    "model2path": {"e5": "intfloat/e5-base-v2", "llama3-8B-instruct": "meta-llama/Meta-Llama-3-8B-Instruct"},
-    "retrieval_method": "e5",
-    "generator_model": "llama3-8B-instruct",
-    "corpus_path": "indexes/general_knowledge.jsonl",
-    "index_path": "indexes/e5_Flat.index",
+    # "save_note": "demo",
+    # "model2path": {"e5": "intfloat/e5-base-v2", "llama3-8B-instruct": "meta-llama/Meta-Llama-3-8B-Instruct"},
+    # "retrieval_method": "e5",
+    # "generator_model": "llama3-8B-instruct",
+    # "corpus_path": "indexes/general_knowledge.jsonl",
+    # "index_path": "indexes/e5_Flat.index",
+    'data_dir': '../dataset/',
+    'index_path': '../indexes/e5_Flat.index',
+    'corpus_path': '../indexes/general_knowledge.jsonl',
+    'model2path': {'e5': '/home/u2021201791/workspace/Model/intfloat/e5-base-v2'},
+    'openai_setting':{'api_key':'sk-40b478c515bf4de38b60511ee63f56b5', 'base_url':'https://api.deepseek.com/v1'},
+    'generator_model': 'deepseek-chat',
+    'framework': 'openai',
+    'retrieval_method': 'e5',
+    'metrics': ['em','f1','acc'],
+    'retrieval_topk': 1,
+    'save_intermediate_data': True
 }
 
 

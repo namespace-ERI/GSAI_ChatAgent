@@ -390,7 +390,7 @@ def main():
                     encoded = base64.b64encode(data).decode()
 
                 st.markdown(f"""
-                <div style="text-align: center; display: flex; align-items: center; height:30vh; width: fit-content; margin-left: auto; margin-right: auto;">
+                <div style="text-align: center; display: flex; align-items: center;  height:30vh; width: fit-content; margin-left: auto; margin-right: auto;">
                     <img src="data:image/jpeg;base64,{encoded}"
                         style="height: 120px; margin-right: 20px;" />
                     <div>
@@ -413,31 +413,28 @@ def main():
             for message in st.session_state.conversation_history:
                 role = message["role"]
                 content = message["content"]
-                
+                def stream_data(content):
+                    for word in content.split(" "):
+                        yield word + " "
+                        time.sleep(0.1)
+
+                st.html(
+                        """
+                    <style>
+                        [class*="st-key-user"] {
+                            background-color: #e6f3f9;
+                        }
+                    </style>
+                    """
+                    )
+                def chat_message_user(name, avatar):
+                    return st.container(key=f"{name}-{uuid.uuid4()}").chat_message(name=name, avatar=avatar)
                 if role == "user":
-                    avatar = "/home/u2021201791/workspace/FlashRAG/examples/quick_start/user_avatar.jpg"
-                    with open(avatar, "rb") as f:
-                        data = f.read()
-                        encoded_user = base64.b64encode(data).decode()
-                    st.markdown(f'''
-                    <div style="display: flex; justify-content: flex-end; align-items: flex-start; margin: 10px 0;">
-                        <div class="user-bubble">{content}</div>
-                        <img src="data:image/jpeg;base64,{encoded_user}" style="height: 24px; margin-left: 10px;" />
-                    </div>
-                    <div style="clear: both;"></div>
-                    ''', unsafe_allow_html=True)
+                    with chat_message_user(name="user", avatar="/home/u2021201791/workspace/FlashRAG/examples/quick_start/user_avatar.jpg"):
+                        st.write(content)
                 elif role == "assistant":
-                    avatar = "/home/u2021201791/workspace/FlashRAG/examples/quick_start/assistant_avatar.jpg"
-                    with open(avatar, "rb") as f:
-                        data = f.read()
-                        encoded_user = base64.b64encode(data).decode()
-                    st.markdown(f'''
-                    <div style="display: flex; justify-content: flex-start; align-items: flex-start; margin: 10px 0;">
-                        <img src="data:image/jpeg;base64,{encoded_user}" style="height: 24px; margin-right: 10px;" />
-                        <div class="assistant-bubble">{content}</div>
-                    </div>
-                    <div style="clear: both;"></div>
-                    ''', unsafe_allow_html=True)
+                    with st.chat_message("assistant", avatar="/home/u2021201791/workspace/FlashRAG/examples/quick_start/assistant_avatar.jpg"):
+                        st.write_stream(stream_data(content))
                 
 
                     # 显示引用文档

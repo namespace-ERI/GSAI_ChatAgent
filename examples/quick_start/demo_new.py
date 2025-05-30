@@ -317,13 +317,13 @@ def main():
     # 对话参数
     temperature = 0.5
     topk = 5
-    max_new_tokens = 1024
-    memory_window = 3
+    max_new_tokens = 256
+    memory_window = 5
     st.session_state.user_avatar = "👤"
     st.session_state.assistant_avatar = "🤖"
     # 左侧边栏设置与历史对话
     with st.sidebar:
-        st.title(":blue[学生成长助手]")
+        st.title("_GSAI_ :blue[学生成长助手]")
         
         # # 显示模型状态
         # if st.session_state.models_loaded:
@@ -367,7 +367,7 @@ def main():
                 title = data.get("timestamp", "Untitled")
                 for msg in data.get("messages", []):
                     if msg["role"] == "user":
-                        title = msg["content"][:12] + "..." if len(msg["content"]) > 12 else msg["content"]
+                        title = msg["content"][:20] + "..." if len(msg["content"]) > 20 else msg["content"]
                         break
 
                 if st.button(title, key=f"conv_{data['id']}", use_container_width=True):
@@ -377,7 +377,7 @@ def main():
             st.write("没有先前对话历史")
     
     # 使用三列布局，将中间列用于对话
-    col1, main_col, col3 = st.columns([1, 5, 1])
+    col1, main_col, col3 = st.columns([2, 4, 2])
     
     with main_col:
         # 欢迎页面
@@ -390,7 +390,7 @@ def main():
                     encoded = base64.b64encode(data).decode()
 
                 st.markdown(f"""
-                <div style="text-align: center; display: flex; align-items: center; height:30vh; width: fit-content; margin-left: auto; margin-right: auto;">
+                <div style="text-align: center; display: flex; align-items: center; margin-top: 200px; width: fit-content; margin-left: auto; margin-right: auto;">
                     <img src="data:image/jpeg;base64,{encoded}"
                         style="height: 120px; margin-right: 20px;" />
                     <div>
@@ -401,7 +401,7 @@ def main():
                 """, unsafe_allow_html=True)
             except FileNotFoundError:
                 st.markdown("""
-                <div style="text-align: center;  height:30vh;">
+                <div style="text-align: center; margin-top: 200px;">
                     <h1 style="color: #66b3d9;">欢迎👏我是高瓴AI学生成长助手</h1>
                     <p>我可以帮你解决学习生活上遇到的问题，不清楚的地方快来问问我吧～</p>
                 </div>
